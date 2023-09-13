@@ -41,7 +41,7 @@ public class SpringSecurityConfig {
                 ).formLogin(
                         form -> form
                                 .loginProcessingUrl("/login")
-                                .defaultSuccessUrl("/bidList/list", true)
+                                .defaultSuccessUrl("/rating/list", true)
                                 .permitAll()
                 ).logout(
                         logout -> logout
