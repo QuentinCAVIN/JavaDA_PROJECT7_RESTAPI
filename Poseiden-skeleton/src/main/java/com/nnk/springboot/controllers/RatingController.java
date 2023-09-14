@@ -28,7 +28,7 @@ public class RatingController {
 
     @GetMapping("/rating/add")
     public String addRatingForm(Rating rating) {// TODO ça marche ça?
-       /* Rating rating = new Rating();
+        /*Rating rating = new Rating();
         model.addAttribute("rating",rating);*/
         return "rating/add";
     }
@@ -36,12 +36,12 @@ public class RatingController {
     @PostMapping("/rating/validate")
     public String validate(@Valid Rating rating, BindingResult result, Model model) {
         // TODO: check data valid and save to db, after saving return Rating list
-        // TODO : @Valid n'a pas d'effet "IllegalArgumentException12005_DebugLabel = Cannot find local variable "IllegalArgumentException12005_DebugLabel""
         if (!result.hasErrors()) {
             ratingService.saveRating(rating);
             return "redirect:/rating/add";
         }
-        model.addAttribute(rating);
+        //model.addAttribute(rating);
+        // l'objet Rating est conservé dans le model par default pas besoin de l'ajouter au model
         return "/rating/add";
     }
 
@@ -49,23 +49,19 @@ public class RatingController {
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
         Optional<Rating> rating = ratingService.getRatingById(id);
         model.addAttribute(rating.get()); //TODO: a vérifier: pas besoin de confirmation car si l'id n'est pas présente
-                                          // le endpoint n'est pas visible par l'utilisatuer
+                                          // le endpoint n'est pas visible par l'utilisatuer. Copier user sinon
         return "rating/update";
     }
 
     @PostMapping("/rating/update/{id}")
     public String updateRating(@PathVariable("id") Integer id, @Valid Rating rating,
                              BindingResult result, Model model) {
-        if (!result.hasErrors()) {
-            ratingService.saveRating(rating);
-            model.addAttribute(rating);
-            model.addAttribute("ratings", ratingService.getRatings());
-            return "redirect:/rating/list"; //TODO Structure copié sur User mais vérifier la différence entre "/" et "redirect:/"
-                                            // il me semble que c'est mal utilisé ici
-                                            // pas vérifiable pour le moment vu que le @Valid ne fonctionne pas
+        if (result.hasErrors()) {
+            return "rating/update";
+            // l'objet Rating est conservé dans le model par default pas besoin de l'ajouter au model
         }
-        return "/rating/list";
-        // TODO: check required fields, if valid call service to update Rating and return Rating list
+            ratingService.saveRating(rating);
+            return "redirect:/rating/list";
     }
 
     @GetMapping("/rating/delete/{id}")

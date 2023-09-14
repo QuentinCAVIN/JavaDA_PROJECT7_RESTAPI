@@ -65,6 +65,7 @@ public class RatingServiceImplTest {
 
         Mockito.verify(ratingRepository, Mockito.times(1)).delete(dummyRating);
     }
+
     public Rating getDummyRating() {
         Rating rating = new Rating();
         rating.setMoodysRating("Moodys Rating");
@@ -73,9 +74,9 @@ public class RatingServiceImplTest {
         rating.setOrderNumber(10);
         return rating;
     }
+
     public List<Rating> getDummyRatingList(){
         Rating rating = getDummyRating();
         return new ArrayList<>(Arrays.asList(rating,rating));
     }
 }
-

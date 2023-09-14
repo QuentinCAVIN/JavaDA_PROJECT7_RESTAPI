@@ -2,7 +2,9 @@ package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.services.UserService;
+
 import jakarta.validation.Valid;
+import org.glassfish.jaxb.core.v2.TODO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -29,7 +31,7 @@ public class UserController {
 
     @PostMapping("/user/validate")
     public String validate(@Valid User user, BindingResult result, Model model) {
-        if (!result.hasErrors()) { //TODO: @Valid n'a pas d'effet "IllegalArgumentException12005_DebugLabel = Cannot find local variable "IllegalArgumentException12005_DebugLabel""
+        if (!result.hasErrors()) {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             user.setPassword(encoder.encode(user.getPassword()));
             userService.saveUser(user);
@@ -48,19 +50,22 @@ public class UserController {
     }
 
     @PostMapping("/user/update/{id}")
-    public String updateUser(@PathVariable("id") Integer id, @Valid User user,
-                             BindingResult result, Model model) {
+    public String updateUser(@PathVariable("id") Integer id, @Valid User user, //TODO Poser question à Vincent
+                             BindingResult result, Model model) {// Ne peut on pas suprrimer le paramétre id ici voir ci-dessous
         if (result.hasErrors()) {
             return "user/update";
         }
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setPassword(encoder.encode(user.getPassword()));
-        user.setId(id);
+        user.setId(id);// Pourquoi définir l'id ici? elle est déja définis dans le user donnée par showUpdateForm
         userService.saveUser(user);
         model.addAttribute("users", userService.getUsers());
+        // Pourquoi ajouter la list des utilisateur au model? redirect:/user/list le fait déja non?
         return "redirect:/user/list";
     }
+    //TODO: si modification, mettre à jour les methodes update de chaque controller + les test + le html
+    // si pas de modif ajouter le set id dans les methodes update de chaque controller
 
     @GetMapping("/user/delete/{id}")
     public String deleteUser(@PathVariable("id") Integer id, Model model) {
