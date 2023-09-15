@@ -21,7 +21,6 @@ import java.util.Optional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-
 public class RatingIT {
 
 	@Autowired
