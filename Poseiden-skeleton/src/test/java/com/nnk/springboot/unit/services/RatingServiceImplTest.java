@@ -1,4 +1,4 @@
-package com.nnk.springboot.unit;
+package com.nnk.springboot.unit.services;
 
 import com.nnk.springboot.domain.Rating;
 import com.nnk.springboot.repositories.RatingRepository;

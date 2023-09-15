@@ -13,6 +13,7 @@ public class User {
     private Integer id;
 
     @NotEmpty(message = "Username is mandatory")
+    @Column(unique = true)
     private String username;
     @NotEmpty(message = "Password is mandatory")
     private String password;
