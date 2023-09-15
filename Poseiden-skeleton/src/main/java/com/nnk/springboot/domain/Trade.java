@@ -19,7 +19,7 @@ import javax.validation.constraints.NotBlank;*/
 @Table(name = "trade")
 public class Trade {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "trad_id")
     Integer tradeId;
     String account;
