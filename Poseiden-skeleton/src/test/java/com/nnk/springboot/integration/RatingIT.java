@@ -63,7 +63,7 @@ public class RatingIT {
 
 	@Test
 	public void showRatingHome_WithRatingsSaved_ShouldDisplayRatingsFromDatabase() throws Exception {
-		createTwoRating();
+		createTwoRatings();
 		Rating dummyRating1 = getDummyRating1();
 		Rating dummyRating2 = getDummyRating2();
 
@@ -104,7 +104,7 @@ public class RatingIT {
 		Assertions.assertThat(ratingDeleted.isEmpty()).isTrue();
 	}
 
-	public void createTwoRating() throws Exception {
+	public void createTwoRatings() throws Exception {
 		createOneRating();
 		Rating rating2 = getDummyRating2();
 		ratingRepository.save(rating2);

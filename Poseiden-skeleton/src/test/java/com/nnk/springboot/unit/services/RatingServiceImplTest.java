@@ -74,9 +74,4 @@ public class RatingServiceImplTest {
         rating.setOrderNumber(10);
         return rating;
     }
-
-    public List<Rating> getDummyRatingList(){
-        Rating rating = getDummyRating();
-        return new ArrayList<>(Arrays.asList(rating,rating));
-    }
 }
