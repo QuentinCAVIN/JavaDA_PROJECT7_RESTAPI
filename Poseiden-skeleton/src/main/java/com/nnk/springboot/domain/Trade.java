@@ -1,6 +1,7 @@
 package com.nnk.springboot.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,9 +21,10 @@ import javax.validation.constraints.NotBlank;*/
 public class Trade {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name = "trad_id")
-    Integer tradeId;
+    Integer id;
+    @NotEmpty(message = "Account is mandatory")
     String account;
+    @NotEmpty(message = "Trade is mandatory")
     String type;
     @Column(name = "buy_quantity")
     Double buyQuantity;
