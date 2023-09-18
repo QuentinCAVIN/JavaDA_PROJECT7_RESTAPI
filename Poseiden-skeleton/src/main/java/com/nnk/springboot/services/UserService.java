@@ -13,4 +13,6 @@ public interface UserService {
      Optional<User> getUserById (int id);
 
     void deleteUser(User user);
+
+    User getUserByUsername (String username);
 }

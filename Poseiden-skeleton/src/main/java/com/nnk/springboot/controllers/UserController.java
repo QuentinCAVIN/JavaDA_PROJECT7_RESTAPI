@@ -18,8 +18,7 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping("/user/list")
-    public String home(Model model)
-    {
+    public String home(Model model) {
         model.addAttribute("users", userService.getUsers());
         return "user/list";
     }
@@ -31,6 +30,10 @@ public class UserController {
 
     @PostMapping("/user/validate")
     public String validate(@Valid User user, BindingResult result, Model model) {
+        User OptionalUser = userService.getUserByUsername(user.getUsername());
+        if (OptionalUser != null) {
+            result.rejectValue("username", null, "This username is already used");
+        }
         if (!result.hasErrors()) {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             user.setPassword(encoder.encode(user.getPassword()));
@@ -52,6 +55,10 @@ public class UserController {
     @PostMapping("/user/update/{id}")
     public String updateUser(@PathVariable("id") Integer id, @Valid User user, //TODO Poser question à Vincent
                              BindingResult result, Model model) {// Ne peut on pas suprrimer le paramétre id ici voir ci-dessous
+        User OptionalUser = userService.getUserByUsername(user.getUsername());
+        if (OptionalUser != null) {
+            result.rejectValue("username", null, "This username is already used");
+        }
         if (result.hasErrors()) {
             return "user/update";
         }
