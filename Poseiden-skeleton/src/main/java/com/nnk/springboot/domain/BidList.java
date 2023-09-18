@@ -1,6 +1,7 @@
 package com.nnk.springboot.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,8 +23,10 @@ import java.sql.Timestamp;
 public class BidList {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    Integer BidListId;
+    Integer id;
+    @NotEmpty(message = "Account is mandatory")
     String account;
+    @NotEmpty(message = "Type is mandatory")
     String type;
     @Column(name = "bid_quantity")
     Double bidQuantity;

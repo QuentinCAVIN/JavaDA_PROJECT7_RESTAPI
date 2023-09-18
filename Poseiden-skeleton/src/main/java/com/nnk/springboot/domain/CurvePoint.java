@@ -1,6 +1,8 @@
 package com.nnk.springboot.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +27,7 @@ public class CurvePoint {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     Integer id;
     @Column(name = "curve_id")
+    @NotNull(message = "must not be null")
     Integer curveId;
     @Column(name = "as_of_date")
     Timestamp asOfDate;
@@ -32,6 +35,4 @@ public class CurvePoint {
     Double value;
     @Column(name = "creation_date")
     Timestamp creationDate;
-
-    // TODO: Map columns in data table CURVEPOINT with corresponding java fields
 }
