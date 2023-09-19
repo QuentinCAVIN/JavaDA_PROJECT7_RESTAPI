@@ -2,6 +2,7 @@ package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.services.BidListService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,10 +28,12 @@ public class BidListController  {
         return "bidList/list";
     }
 
+
     @GetMapping("/bidList/add")
     public String addBidListForm(BidList bidList) {
         return "bidList/add";
     }
+
 
     @PostMapping("/bidList/validate")
     public String validate(@Valid BidList bidList, BindingResult result, Model model) {
@@ -47,7 +50,7 @@ public class BidListController  {
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
         Optional<BidList> bidList = bidListService.getBidListById(id);
         model.addAttribute(bidList.get()); //TODO: a vérifier: pas besoin de confirmation car si l'id n'est pas présente
-        // le endpoint n'est pas visible par l'utilisatuer. Copier user sinon
+                                           // le endpoint n'est pas visible par l'utilisateur. Copier user sinon
         return "bidList/update";
     }
 

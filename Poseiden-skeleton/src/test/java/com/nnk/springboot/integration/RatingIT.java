@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -42,6 +43,7 @@ public class RatingIT {
 	}
 	@DisplayName("validateForm_WithValidRating_ShouldSaveRatingToDatabase")
 	@Test
+	@WithMockUser(authorities = "USER")
 	public void createOneRating() throws Exception {
 		Rating dummyRating1 = getDummyRating1();
 
@@ -61,6 +63,7 @@ public class RatingIT {
 	}
 
 	@Test
+	@WithMockUser(authorities = "USER")
 	public void showRatingHome_WithRatingsSaved_ShouldDisplayRatingsFromDatabase() throws Exception {
 		createTwoRatings();
 		Rating dummyRating1 = getDummyRating1();
@@ -75,6 +78,7 @@ public class RatingIT {
 
 
 	@Test
+	@WithMockUser(authorities = "USER")
 	public void UpdateRating_WithValidRating_ShouldSaveRatingToDatabase() throws Exception {
 		createOneRating();
 		Rating rating = ratingRepository.findById(1).get();
@@ -91,6 +95,7 @@ public class RatingIT {
 	}
 
 	@Test
+	@WithMockUser(authorities = "USER")
 	public void deleteRating_ShouldDeleteRatingToDatabase() throws Exception {
 		createOneRating();
 		Optional<Rating> rating = ratingRepository.findById(1);

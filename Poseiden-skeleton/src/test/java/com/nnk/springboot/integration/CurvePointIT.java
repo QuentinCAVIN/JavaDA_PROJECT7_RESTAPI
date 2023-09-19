@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -40,6 +41,7 @@ public class CurvePointIT {
     }
     @DisplayName("validateForm_WithValidCurvePoint_ShouldSaveCurvePointToDatabase")
     @Test
+    @WithMockUser(authorities = "USER")
     public void createOneCurvePoint() throws Exception {
         CurvePoint dummyCurvePoint1 = getDummyCurvePoint1();
 
@@ -58,6 +60,7 @@ public class CurvePointIT {
     }
 
     @Test
+    @WithMockUser(authorities = "USER")
     public void showCurvePointHome_WithCurvePointsSaved_ShouldDisplayCurvePointsFromDatabase() throws Exception {
         createTwoCurvePoints();
         CurvePoint dummyCurvePoint1 = getDummyCurvePoint1();
@@ -72,6 +75,7 @@ public class CurvePointIT {
 
 
     @Test
+    @WithMockUser(authorities = "USER")
     public void UpdateCurvePoint_WithValidCurvePoint_ShouldSaveCurvePointToDatabase() throws Exception {
         createOneCurvePoint();
         CurvePoint curvePoint = curvePointRepository.findById(1).get();
@@ -87,6 +91,7 @@ public class CurvePointIT {
     }
 
     @Test
+    @WithMockUser(authorities = "USER")
     public void deleteCurvePoint_ShouldDeleteCurvePointToDatabase() throws Exception {
         createOneCurvePoint();
         Optional<CurvePoint> curvePoint = curvePointRepository.findById(1);

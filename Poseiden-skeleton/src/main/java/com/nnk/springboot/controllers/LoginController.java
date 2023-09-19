@@ -22,7 +22,7 @@ public class LoginController {
     }
 
     @GetMapping("secure/article-details")
-    public ModelAndView getAllUserArticles() {
+    public ModelAndView getAllUserArticles() { // TODO : comprendre à quoi sert cette classe
         ModelAndView mav = new ModelAndView();
         mav.addObject("users", userRepository.findAll());
         mav.setViewName("user/list");

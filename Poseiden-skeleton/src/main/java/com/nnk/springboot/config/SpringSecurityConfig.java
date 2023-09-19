@@ -34,20 +34,24 @@ public class SpringSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/**").permitAll()
-                        .requestMatchers("/user/list").permitAll()
-                        .requestMatchers("/login").permitAll()
-                        .requestMatchers("/static/css/bootstrap.min.css").permitAll()
+                        .requestMatchers(/*"/bidList/**",*/ "/rating/**",
+                                "/trade/**", "/curvePoint/**").hasAnyAuthority("ADMIN", "USER")
+                        .requestMatchers( "/ruleName/**").hasAnyAuthority("ADMIN")
+                        .requestMatchers("/bidList/**").hasAnyAuthority("USER")// TEST
+                        .requestMatchers("/","/login","/user/**",
+                                "/css/bootstrap.min.css","/app/**").permitAll()
                 ).formLogin(
                         form -> form
                                 .loginProcessingUrl("/login")
-                                .defaultSuccessUrl("/rating/list", true)
+                                .defaultSuccessUrl("/bidList/list", true)
                                 .permitAll()
                 ).logout(
                         logout -> logout
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                                .logoutSuccessUrl("/")
                                 .permitAll()
-                );
+                ).exceptionHandling(ex -> ex.accessDeniedPage("/app/error"));// Ne fonctionne pas
+
         return http.build();
     }
 

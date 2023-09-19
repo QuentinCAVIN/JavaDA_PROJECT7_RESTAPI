@@ -1,7 +1,9 @@
 package com.nnk.springboot.integration;
 
 import com.nnk.springboot.domain.BidList;
+import com.nnk.springboot.domain.User;
 import com.nnk.springboot.repositories.BidListRepository;
+import com.nnk.springboot.repositories.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -25,13 +28,17 @@ public class BidListIT {
     private BidListRepository bidListRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     MockMvc mockMvc;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws Exception{
         bidListRepository.deleteAll();
         jdbcTemplate.execute("TRUNCATE TABLE bidlist RESTART IDENTITY;");
         // Le script SQL réinitialise l'incrémentation de l'id dans la table
@@ -40,6 +47,7 @@ public class BidListIT {
     }
     @DisplayName("validateForm_WithValidBidList_ShouldSaveBidListToDatabase")
     @Test
+    @WithMockUser(authorities = "USER")
     public void createOneBidList() throws Exception {
         BidList dummyBidList1 = getDummyBidList1();
 
@@ -57,6 +65,7 @@ public class BidListIT {
     }
 
     @Test
+    @WithMockUser(authorities = "USER")
     public void showBidListHome_WithBidListsSaved_ShouldDisplayBidListsFromDatabase() throws Exception {
         createTwoBidLists();
         BidList dummyBidList1 = getDummyBidList1();
@@ -71,6 +80,7 @@ public class BidListIT {
 
 
     @Test
+    @WithMockUser(authorities = "USER")
     public void UpdateBidList_WithValidBidList_ShouldSaveBidListToDatabase() throws Exception {
         createOneBidList();
         BidList bidList = bidListRepository.findById(1).get();
@@ -87,6 +97,7 @@ public class BidListIT {
     }
 
     @Test
+    @WithMockUser(authorities = "USER")
     public void deleteBidList_ShouldDeleteBidListToDatabase() throws Exception {
         createOneBidList();
         Optional<BidList> bidList = bidListRepository.findById(1);

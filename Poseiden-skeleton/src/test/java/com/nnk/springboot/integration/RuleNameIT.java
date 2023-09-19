@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -41,6 +42,7 @@ public class RuleNameIT {
 
     @DisplayName("validateForm_WithValidRuleName_ShouldSaveRuleNameToDatabase")
     @Test
+    @WithMockUser(authorities = "ADMIN")
     public void createOneRuleName() throws Exception {
         RuleName dummyRuleName1 = getDummyRuleName1();
 
@@ -64,6 +66,7 @@ public class RuleNameIT {
     }
 
     @Test
+    @WithMockUser(authorities = "ADMIN")
     public void showRuleNameHome_WithRuleNamesSaved_ShouldDisplayRuleNamesFromDatabase() throws Exception {
         createTwoRuleNames();
         RuleName dummyRuleName1 = getDummyRuleName1();
@@ -78,6 +81,7 @@ public class RuleNameIT {
 
 
     @Test
+    @WithMockUser(authorities = "ADMIN")
     public void UpdateRuleName_WithValidRuleName_ShouldSaveRuleNameToDatabase() throws Exception {
         createOneRuleName();
         RuleName ruleName = ruleNameRepository.findById(1).get();
@@ -97,6 +101,7 @@ public class RuleNameIT {
     }
 
     @Test
+    @WithMockUser(authorities = "ADMIN")
     public void deleteRuleName_ShouldDeleteRuleNameToDatabase() throws Exception {
         createOneRuleName();
         Optional<RuleName> ruleName = ruleNameRepository.findById(1);
