@@ -1,6 +1,5 @@
 package com.nnk.springboot.integration;
 
-
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.repositories.UserRepository;
 import jakarta.transaction.Transactional;
@@ -55,7 +54,6 @@ public class AuthentificationIT {
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/login?error"));
     }
 
-
     @Test
     @WithAnonymousUser
     @DisplayName("A registered user can log in")
@@ -89,7 +87,6 @@ public class AuthentificationIT {
         unauthenticatedUserShouldBeRedirectedToLoginPage();
     }
 
-
     @Test
     @WithMockUser(authorities = "ADMIN")
     @DisplayName("A user with ADMIN authentification should acces to an ADMIN page")
@@ -106,7 +103,7 @@ public class AuthentificationIT {
         mockMvc.perform(MockMvcRequestBuilders.get("/ruleName/list"))
                 .andExpect(MockMvcResultMatchers.status().isForbidden())
                 .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString("")));
-    // TODO : comment vérifier que la page chargé est bien la page custom
+        // TODO : comment vérifier que la page chargé est bien la page custom
 
     }
 
@@ -118,7 +115,8 @@ public class AuthentificationIT {
                 .param("fullname", user.getFullname())
                 .param("role", user.getRole()));
     }
-    public User getDummyUser(){
+
+    public User getDummyUser() {
         User dummy = new User();
         dummy.setId(1);
         dummy.setFullname("Full name");
