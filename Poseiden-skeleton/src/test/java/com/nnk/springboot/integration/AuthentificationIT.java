@@ -121,7 +121,7 @@ public class AuthentificationIT {
         dummy.setId(1);
         dummy.setFullname("Full name");
         dummy.setUsername("Username");
-        dummy.setPassword("Password");
+        dummy.setPassword("Password1!");
         dummy.setRole("USER");
         return dummy;
     }

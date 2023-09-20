@@ -81,7 +81,7 @@ public class UserIT {
 
         mockMvc.perform(MockMvcRequestBuilders.post("/user/update/1")
                 .param("username",newUsername)
-                .param("password",user.getPassword())
+                .param("password","Password1!")
                 .param("fullname",user.getFullname())
                 .param("role",user.getRole()));
 
@@ -113,7 +113,7 @@ public class UserIT {
         User user = new User();
         user.setId(1);
         user.setUsername("Username 1");
-        user.setPassword("Password 1");
+        user.setPassword("Password 1!");
         user.setFullname("Full name 1");
         user.setRole("ADMIN");
         return user;
@@ -123,7 +123,7 @@ public class UserIT {
         User user = new User();
         user.setId(2);
         user.setUsername("Username 2");
-        user.setPassword("Password 2");
+        user.setPassword("Password 2!");
         user.setFullname("Full name 2");
         user.setRole("USER");
         return user;
