@@ -17,19 +17,39 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-
+/**
+ * Classe de Configuration de SringSecurity.
+ * Configure les paramètres de sécurité, la gestion des accès,
+ * l'authentification, la gestion des sessions, et les pages d'erreur personnalisées.
+ */
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig {
-
+    /**
+     * Interface UserDetailsService personnalisée dans la classe MyUserDetailsService
+     */
     @Autowired
     private UserDetailsService userDetailsService;
 
+    /**
+     * Fournis un encodeur de mot de passe
+     *
+     * @return Un PasswordEncoder pour encoder les mots de passe.
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Chaîne de filtres qui contrôle la manière dont les requêtes
+     * entrantes sont traitées par Spring Security.
+     *
+     * @param http Objet HttpSecurity fournis par SpringSecurity utilisé pour configurer la chaine de filtres
+     * @return Un objet SecurityFilterChain qui est un conteneur pour la configuration de sécurité,
+     * configuré avec des règles spécifiques.
+     * @throws Exception Si une exception se produit lors de la configuration de la sécurité.
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
@@ -55,8 +75,14 @@ public class SpringSecurityConfig {
         return http.build();
     }
 
-    //Cette methode va indiquer à SpringSecurity d'utiliser ma classe
-    // MyUserDetailsService (implements UserDetailsService) pour gérer l'authentification.
+    /**
+     * Configuration les authentifications dans l'application.
+     * Précise quel implementation de UserDetails Service et quel encodeur de mot de passe utiliser
+     *
+     * @param auth Classe AuthenticationManagerBuilder fournie par Spring
+     *            pour configurer l'authentification.
+     * @throws Exception Si une exception se produit lors de la configuration de l'authentification.
+     */
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .userDetailsService(userDetailsService)
