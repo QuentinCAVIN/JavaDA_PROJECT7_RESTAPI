@@ -1,5 +1,6 @@
 package com.nnk.springboot.domain;
 
+import com.nnk.springboot.config.ValidPassword;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 
@@ -16,6 +17,7 @@ public class User {
     @Column(unique = true)
     private String username;
     @NotEmpty(message = "Password is mandatory")
+    @ValidPassword
     private String password;
     @NotEmpty(message = "FullName is mandatory")
     private String fullname;

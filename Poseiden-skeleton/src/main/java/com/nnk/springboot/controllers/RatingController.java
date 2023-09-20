@@ -48,7 +48,7 @@ public class RatingController {
     @GetMapping("/rating/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
         Optional<Rating> rating = ratingService.getRatingById(id);
-        model.addAttribute(rating.get()); //TODO: a vérifier: pas besoin de confirmation car si l'id n'est pas présente
+        model.addAttribute(rating.orElse(null)); //TODO: a vérifier: pas besoin de confirmation car si l'id n'est pas présente
                                           // le endpoint n'est pas visible par l'utilisatuer. Copier user sinon
         return "rating/update";
     }

@@ -54,7 +54,7 @@ public class SpringSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(/*"/bidList/**",*/ "/rating/**",
+                        .requestMatchers("/bidList/**", "/rating/**",
                                 "/trade/**", "/curvePoint/**").hasAnyAuthority("ADMIN", "USER")
                         .requestMatchers( "/ruleName/**").hasAnyAuthority("ADMIN")
                         .requestMatchers("/bidList/**").hasAnyAuthority("USER")// TEST

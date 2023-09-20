@@ -47,7 +47,7 @@ public class UserController {
     @GetMapping("/user/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
         User user = userService.getUserById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-        user.setPassword("");// TODO c'est quoi ça?
+        user.setPassword("");//Pour éviter d'afficher le mot de passe au moment de la modif (ajouté au model)
         model.addAttribute("user", user);
         return "user/update";
     }
