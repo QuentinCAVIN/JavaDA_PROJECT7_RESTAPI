@@ -67,12 +67,17 @@ public class UserControllerTest {
 
     @Test
     public void validateTestWithWrongObject() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/user/validate"))
+        User dummyUser = getDummyUser();
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/user/validate")
+                .param("password","Wrong password"))
 
                 .andExpect(MockMvcResultMatchers.view().name("user/add"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content()
                         .string(CoreMatchers.containsString("Username is mandatory")))
+                .andExpect(MockMvcResultMatchers.content()
+                        .string(CoreMatchers.containsString("Invalid Password")))
                 .andExpect(MockMvcResultMatchers.model().attributeExists("user"));
     }
 
@@ -124,19 +129,27 @@ public class UserControllerTest {
 
     @Test
     public void updateUserTestWithWrongObject() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/user/update/1"))
+        User dummyUser = getDummyUser();
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/user/update/1")
+                        .param("password","Wrong password"))
 
                 .andExpect(MockMvcResultMatchers.view().name("user/update"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content()
                         .string(CoreMatchers.containsString("Username is mandatory")))
+                .andExpect(MockMvcResultMatchers.content()
+                        .string(CoreMatchers.containsString("Invalid Password")))
                 .andExpect(MockMvcResultMatchers.model().attributeExists("user"));
     }
 
     @Test
     public void updateUserTestWithUserAlreadyRegistered() throws Exception {
         User dummyUser = getDummyUser();
+        User dummyUserAlreadyRegistered = getDummyUser();
+        dummyUserAlreadyRegistered.setUsername("Not dummyUser username");
         Mockito.when(userService.getUserByUsername(dummyUser.getUsername())).thenReturn(dummyUser);
+        Mockito.when(userService.getUserById(dummyUser.getId())).thenReturn(Optional.of(dummyUserAlreadyRegistered));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/user/update/1")
                         .param("username",dummyUser.getUsername())
@@ -168,7 +181,7 @@ public class UserControllerTest {
         User user = new User();
         user.setId(1);
         user.setUsername("Username");
-        user.setPassword("Password");
+        user.setPassword("Password1!");
         user.setFullname("Full name");
         user.setRole("ADMIN");
         return user;

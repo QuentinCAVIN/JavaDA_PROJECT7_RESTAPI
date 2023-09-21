@@ -1,7 +1,9 @@
 package com.nnk.springboot.integration;
 
 import com.nnk.springboot.domain.Trade;
+import com.nnk.springboot.domain.User;
 import com.nnk.springboot.repositories.TradeRepository;
+import com.nnk.springboot.repositories.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -26,6 +29,8 @@ public class TradeIT {
 
     @Autowired
     MockMvc mockMvc;
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -38,8 +43,10 @@ public class TradeIT {
         // Sans ça les "findById" déconnent
 
     }
+
     @DisplayName("validateForm_WithValidTrade_ShouldSaveTradeToDatabase")
     @Test
+    @WithMockUser(authorities = "USER")
     public void createOneTrade() throws Exception {
         Trade dummyTrade1 = getDummyTrade1();
 
@@ -57,6 +64,7 @@ public class TradeIT {
     }
 
     @Test
+    @WithMockUser(authorities = "USER")
     public void showTradeHome_WithTradesSaved_ShouldDisplayTradesFromDatabase() throws Exception {
         createTwoTrades();
         Trade dummyTrade1 = getDummyTrade1();
@@ -71,6 +79,7 @@ public class TradeIT {
 
 
     @Test
+    @WithMockUser(authorities = "USER")
     public void UpdateTrade_WithValidTrade_ShouldSaveTradeToDatabase() throws Exception {
         createOneTrade();
         Trade trade = tradeRepository.findById(1).get();
@@ -87,6 +96,7 @@ public class TradeIT {
     }
 
     @Test
+    @WithMockUser(authorities = "USER")
     public void deleteTrade_ShouldDeleteTradeToDatabase() throws Exception {
         createOneTrade();
         Optional<Trade> trade = tradeRepository.findById(1);
